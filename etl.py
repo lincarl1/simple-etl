@@ -74,9 +74,9 @@ def clean_events(df):
     metadata_cols = [c for c in df.columns if c.startswith("metadata.")]
     dedupe_cols = [c for c in df.columns if c not in metadata_cols]
 
-    before_dedupe = len(df)
+    before_dedupe_count = len(df)
     df = df.drop_duplicates(subset=dedupe_cols)
-    deduped_count = before_dedupe - len(df)
+    deduped_count = before_dedupe_count - len(df)
 
     print(f"Initial row count: {initial_count}")
     print(f"Rows dropped due to bad users: {missing_user_id_count}")
@@ -99,11 +99,11 @@ def join_and_filter(events, users):
     """
     joined = events.merge(users, on="user_id", how="inner")
 
-    before_filter = len(joined)
+    before_filter_count = len(joined)
     joined = joined[joined["country"] == "US"]
-    filtered = before_filter - len(joined)
+    filtered_count = before_filter_count - len(joined)
 
-    print(f"Rows dropped due to non-US filter: {filtered}")
+    print(f"Rows dropped due to non-US filter: {filtered_count}")
     print(f"Row count after join + filter: {len(joined)}")
 
     # Edge Case
